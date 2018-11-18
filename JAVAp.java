@@ -1,8 +1,10 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.util.*;
+import java.io.*;
 import java.awt.event.*;
+import javax.swing.text.*;
+import javax.swing.plaf.metal.*;
 public class JAVAp extends JFrame implements ActionListener { 
 	
 	public JComboBox jcb  = new JComboBox();
@@ -60,7 +62,6 @@ public class JAVAp extends JFrame implements ActionListener {
        
        JMenuItem i1= new JMenuItem("Open");
        JMenuItem i2= new JMenuItem("Save");
-       JMenuItem i3= new JMenuItem("SaveAs");
        JMenuItem i4= new JMenuItem("Cut");
        JMenuItem i5= new JMenuItem("Copy");
        JMenuItem i6= new JMenuItem("Paste");
@@ -73,14 +74,17 @@ public class JAVAp extends JFrame implements ActionListener {
        JMenuItem i13= new JMenuItem("Octagon");
        JMenuItem i14= new JMenuItem("Case Upper");
        JMenuItem i15= new JMenuItem("Case Lower");
-       
+       i2.addActionListener(this); 
+       i1.addActionListener(this);
+       i4.addActionListener(this);
+       i5.addActionListener(this);
+       i6.addActionListener(this); 
        bold.setFont(new Font("Arial Black",Font.BOLD,14));
        Italic.setFont(new Font("Times New Roman",Font.ITALIC,16));
        UL.setFont(new Font("Times New Roman",Font.BOLD,16));
        
        menu1.add(i1);
        menu1.add(i2);
-       menu1.add(i3);
        menu2.add(i4);
        menu2.add(i5);
        menu2.add(i6);
@@ -115,6 +119,88 @@ public class JAVAp extends JFrame implements ActionListener {
        add(panel1);
        //add(panel2);
        }
+           @Override
+            public void actionPerformed(ActionEvent e) {
+               String s = e.getActionCommand(); 
+             if (s.equals("cut")) { 
+            jtf.cut(); 
+        } 
+        else if (s.equals("copy")) { 
+            jtf.copy(); 
+        } 
+        else if (s.equals("paste")) { 
+            jtf.paste(); 
+        } 
+         if (s.equals("Save")) { 
+            // Create an object of JFileChooser class 
+            JFileChooser j = new JFileChooser("f:"); 
+  
+            // Invoke the showsSaveDialog function to show the save dialog 
+            int r = j.showSaveDialog(null); 
+  
+            if (r == JFileChooser.APPROVE_OPTION) { 
+  
+                // Set the label to the path of the selected directory 
+                File fi = new File(j.getSelectedFile().getAbsolutePath()); 
+  
+                  try{
+                    // Create a file writer 
+                    FileWriter wr = new FileWriter(fi, false); 
+  
+                    // Create buffered writer to write 
+                    BufferedWriter w = new BufferedWriter(wr); 
+  
+                    // Write 
+                    w.write(jtf.getText()); 
+  
+                    w.flush(); 
+                    w.close(); 
+                  }
+                 catch(Exception evt)
+                  {
+                     }
+            } 
+            
+        }  
+       if (s.equals("Open")) { 
+            // Create an object of JFileChooser class 
+            JFileChooser j = new JFileChooser("f:"); 
+  
+            // Invoke the showsOpenDialog function to show the save dialog 
+            int r = j.showOpenDialog(null); 
+  
+            // If the user selects a file 
+            if (r == JFileChooser.APPROVE_OPTION) { 
+                // Set the label to the path of the selected directory 
+                File fi = new File(j.getSelectedFile().getAbsolutePath()); 
+  
+                try { 
+                    // String 
+                    String s1 = "", sl = ""; 
+  
+                    // File reader 
+                    FileReader fr = new FileReader(fi); 
+  
+                    // Buffered reader 
+                    BufferedReader br = new BufferedReader(fr); 
+  
+                    // Initilize sl 
+                    sl = br.readLine(); 
+  
+                    // Take the input from the file 
+                    while ((s1 = br.readLine()) != null) { 
+                        sl = sl + "\n" + s1; 
+                    } 
+  
+                    // Set the text 
+                    jtf.setText(sl); 
+                } 
+                catch (Exception evt) { 
+                    
+                } 
+            } 
+     }
+}
   public static void main(String[] args)
     {
      JAVAp w =new JAVAp();
@@ -126,9 +212,4 @@ public class JAVAp extends JFrame implements ActionListener {
      w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
      w.setVisible(true);
   }
-@Override
-public void actionPerformed(ActionEvent e) {
-	// TODO Auto-generated method stub
-	
-}
 }
