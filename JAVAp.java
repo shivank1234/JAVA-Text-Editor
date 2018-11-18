@@ -6,7 +6,8 @@ import java.awt.event.*;
 public class JAVAp extends JFrame implements ActionListener { 
 	
 	public JComboBox jcb  = new JComboBox();
-	public JComboBox jcbFontSize = new JComboBox();
+	public JComboBox jcbFontSize = new JComboBox<String>(new String[] {"1","2", "4", "6",
+	"8", "10","12","14","16","18","20","22","24" });
 	public static JTextPane jtf = new JTextPane();
 	public JTextField tf = new JTextField(10);
 	public JTextField tf2 = new JTextField(10);
@@ -17,6 +18,8 @@ public class JAVAp extends JFrame implements ActionListener {
 	public JButton UL = new JButton("U");
 	public static JMenuBar mb = new JMenuBar();
 	public static JMenuBar mb2 = new JMenuBar();
+	public int SIZE = 10;
+	public String FONT = "Dialog";
 	
   public JAVAp(){
 	  
@@ -46,6 +49,14 @@ public class JAVAp extends JFrame implements ActionListener {
        menu3.setBorder(new LineBorder(Color.GRAY,1));
        jcb.setBackground(Color.WHITE);
        jcbFontSize.setBackground(Color.WHITE);
+       
+       jcbFontSize.addActionListener(e ->{
+           String s = (String) jcbFontSize.getSelectedItem();
+           double scale = new Double(s).doubleValue();
+           int size = (int) (SIZE * scale);
+           jtf.setFont(new Font(FONT, Font.PLAIN, size));
+         }
+       );
        
        JMenuItem i1= new JMenuItem("Open");
        JMenuItem i2= new JMenuItem("Save");
@@ -82,13 +93,13 @@ public class JAVAp extends JFrame implements ActionListener {
        menu3.add(i11);
        menu3.add(i12);
        menu3.add(i13);
+       String arr[] = new String[20];
        
-       for(int i=6;i<=50;i+=2)
-    	   jcbFontSize.addItem(i);
        GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
-				String[] fontnames = e.getAvailableFontFamilyNames();
-				for (int i = 0; i < fontnames.length; i++)
-				jcb.addItem(fontnames[i]);
+	   String[] fontnames = e.getAvailableFontFamilyNames();
+	   for (int i = 0; i < fontnames.length; i++) {
+		   jcb.addItem(fontnames[i]);
+	   }
 				
        mb.add(menu1);
        mb.add(menu2);
