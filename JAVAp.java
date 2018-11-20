@@ -9,8 +9,8 @@ public class JAVAp extends JFrame implements ActionListener {
 	
 	public JComboBox jcb  = new JComboBox();
 	public JComboBox jcbFontSize = new JComboBox<String>(new String[] {"1","2", "4", "6",
-	"8", "10","12","14","16","18","20","22","24","26","28","30","32","34","36","38","40","44","48","52","56","60","64","68","72","76","80","84","88","92","96","100"});
-	public static JTextPane jtf = new JTextPane();
+	"8", "10","12","14","16","18","20","22","24" });
+	public static JTextArea jtf = new JTextArea();
 	public JTextField tf = new JTextField(10);
 	public JTextField tf2 = new JTextField(10);
 	public JPanel panel1 = new JPanel();
@@ -52,24 +52,13 @@ public class JAVAp extends JFrame implements ActionListener {
        jcb.setBackground(Color.WHITE);
        jcbFontSize.setBackground(Color.WHITE);
        
-       jcbFontSize.addActionListener(new ActionListener() {
-    	   @Override
-    	   public void actionPerformed(ActionEvent e3) {
-    		   String s4 = jcbFontSize.getSelectedItem().toString();
-    		   int size = Integer.parseInt(s4);
-    		   Action fontAction = new StyledEditorKit.FontSizeAction(String.valueOf(size), size);
-    		   fontAction.actionPerformed(e3);
-    	   }
-       });
-       
-       jcb.addActionListener(new ActionListener() {
-    	   @Override
-    	   public void actionPerformed(ActionEvent e2) {
-    		   String name = jcb.getSelectedItem().toString();
-    		   new StyledEditorKit.FontFamilyAction("font-family-" + name, name).actionPerformed(e2);
-    	   }
-       });
-       
+       jcbFontSize.addActionListener(e ->{
+           String s = (String) jcbFontSize.getSelectedItem();
+           double scale = new Double(s).doubleValue();
+           int size = (int) (SIZE * scale);
+           jtf.setFont(new Font(FONT, Font.PLAIN, size));
+         }
+       );
        
        JMenuItem i1= new JMenuItem("New");
        JMenuItem i2= new JMenuItem("Open");
@@ -77,8 +66,8 @@ public class JAVAp extends JFrame implements ActionListener {
        JMenuItem i4= new JMenuItem("Cut");
        JMenuItem i5= new JMenuItem("Copy");
        JMenuItem i6= new JMenuItem("Paste");
-       JMenuItem i7= new JMenuItem("Replace");
-       JMenuItem i8= new JMenuItem("Replace All");
+       JMenuItem i7= new JMenuItem("Find & Replace");
+       JMenuItem i8= new JMenuItem("Find & Replace All");
        JMenuItem i9= new JMenuItem("Square");
        JMenuItem i10= new JMenuItem("Rectangle");
        JMenuItem i11= new JMenuItem("Circle");
@@ -87,56 +76,94 @@ public class JAVAp extends JFrame implements ActionListener {
        JMenuItem i14= new JMenuItem("Case Upper");
        JMenuItem i15= new JMenuItem("Case Lower");
        JMenuItem i16= new JMenuItem("Count words & charachters");
-       
        bold.addActionListener(e ->changeStyle());
        Italic.addActionListener(e ->changeStyle2());
        UL.addActionListener(e ->changeStyle3());
        
-       i1.addActionListener(this);
+       i1.addActionListener(this); 
        i2.addActionListener(this); 
        i3.addActionListener(this);
        i4.addActionListener(new ActionListener()
+    		   {
+    	   public void actionPerformed(ActionEvent e1)
+    	   {
+    		   jtf.cut();
+    	   }
+    		   });
+       i5.addActionListener(new ActionListener()
 	   {
    public void actionPerformed(ActionEvent e1)
    {
-	   jtf.cut();
+	   jtf.copy();
    }
 	   });
-	i5.addActionListener(new ActionListener()
-	{
-	public void actionPerformed(ActionEvent e1)
-	{
-	jtf.copy();
-	}
-	});
-	i6.addActionListener(new ActionListener()
-	{
-	public void actionPerformed(ActionEvent e1)
-	{
-	jtf.paste();
-	}
-	});
-	
-	i16.addActionListener(new ActionListener()
+       i6.addActionListener(new ActionListener()
 	   {
-	public void actionPerformed(ActionEvent e1)
-	{
-		   String s1 =jtf.getSelectedText();
-	int length=0,words=1;
-	int i;
-	for(i=0;i<s1.length()-1;i++)
-	{
-	if (((s1.charAt(i) == ' ') && (s1.charAt(i + 1) != ' '))||((s1.charAt(i) == ',') && (s1.charAt(i + 1) != ','))||((s1.charAt(i) == '.') && (s1.charAt(i + 1) != '.')))
-		{
-			words++;
-		}   
-	}
-	tf.setText(String.valueOf(words));
-	tf2.setText(String.valueOf(s1.length()));
-	}
-
+   public void actionPerformed(ActionEvent e1)
+   {
+	   jtf.paste();
+   }
 	   });
+   i16.addActionListener(new ActionListener()
+    		   {
+    	   public void actionPerformed(ActionEvent e1)
+    	   {
+    		   String s1 =jtf.getSelectedText();
+    int length=0,words=1;
+     int i;
+    for(i=0;i<s1.length()-1;i++)
+       {
+           if (((s1.charAt(i) == ' ') && (s1.charAt(i + 1) != ' '))||((s1.charAt(i) == ',') && (s1.charAt(i + 1) != ','))||((s1.charAt(i) == '.') && (s1.charAt(i + 1) != '.')))
+			{
+				words++;
+			}   
+       }
+    tf.setText(String.valueOf(words));
+    tf2.setText(String.valueOf(s1.length()));
+    	   }
        
+    		   });
+       i7.addActionListener(new ActionListener()
+	   {
+   public void actionPerformed(ActionEvent e1)
+   {
+           JOptionPane.showMessageDialog( null, "CAUTION:Replace only replaces the first occurence of the word");
+	   String s2 =jtf.getText();
+           String s3=JOptionPane.showInputDialog("Enter the word to be found");
+           String s4=JOptionPane.showInputDialog("Enter the word to be used as a replacement");
+           String s5=s2.replaceFirst(s3,s4);
+           jtf.setText(s5);
+   }
+	   });
+      i8.addActionListener(new ActionListener()
+	   {
+   public void actionPerformed(ActionEvent e1)
+   {
+	   String s2 =jtf.getText();
+           String s3=JOptionPane.showInputDialog("Enter the word to be found");
+           String s4=JOptionPane.showInputDialog("Enter the word to be used as a replacement");
+           s2=s2.replaceAll(s3,s4);
+           jtf.setText(s2);
+   }
+	   });
+      i14.addActionListener(new ActionListener()
+	   {
+   public void actionPerformed(ActionEvent e1)
+   {
+	   String s2 =jtf.getSelectedText();
+           s2=s2.toUpperCase();
+           jtf.setText(s2);
+   }
+	   });
+      i15.addActionListener(new ActionListener()
+	   {
+   public void actionPerformed(ActionEvent e1)
+   {
+	   String s2 =jtf.getSelectedText();
+           s2=s2.toLowerCase();
+           jtf.setText(s2);
+   }
+	   });
        bold.setFont(new Font("Arial Black",Font.BOLD,14));
        Italic.setFont(new Font("Times New Roman",Font.ITALIC,16));
        UL.setFont(new Font("Times New Roman",Font.BOLD,16));
@@ -144,6 +171,7 @@ public class JAVAp extends JFrame implements ActionListener {
        menu1.add(i1);
        menu1.add(i2);
        menu1.add(i3);
+       menu1.add(i16);
        menu2.add(i4);
        menu2.add(i5);
        menu2.add(i6);
@@ -156,7 +184,6 @@ public class JAVAp extends JFrame implements ActionListener {
        menu3.add(i11);
        menu3.add(i12);
        menu3.add(i13);
-       menu2.add(i16);
        String arr[] = new String[20];
        
        GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -181,11 +208,8 @@ public class JAVAp extends JFrame implements ActionListener {
        }
            @Override
             public void actionPerformed(ActionEvent e) {
-               String s = e.getActionCommand();
-               if (s.equals("New")) { 
-                   jtf.setText(""); 
-               }      
-               
+               String s = e.getActionCommand(); 
+
          if (s.equals("Save")) { 
             // Create an object of JFileChooser class 
             JFileChooser j = new JFileChooser("f:"); 
@@ -217,6 +241,9 @@ public class JAVAp extends JFrame implements ActionListener {
             } 
             
         }  
+         else if (s.equals("New")) { 
+             jtf.setText(""); 
+         } 
        if (s.equals("Open")) { 
             // Create an object of JFileChooser class 
             JFileChooser j = new JFileChooser("f:"); 
@@ -255,6 +282,7 @@ public class JAVAp extends JFrame implements ActionListener {
                 } 
             } 
      }
+    
 }
   public static void main(String[] args)
     {
@@ -313,4 +341,4 @@ public class JAVAp extends JFrame implements ActionListener {
 	    doc.setCharacterAttributes(selectionStart, jtf.getSelectedText()
 	        .length(), asNew, true);
 	  }
-}
+    }
