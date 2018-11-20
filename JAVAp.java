@@ -10,7 +10,7 @@ public class JAVAp extends JFrame implements ActionListener {
 	public JComboBox jcb  = new JComboBox();
 	public JComboBox jcbFontSize = new JComboBox<String>(new String[] {"1","2", "4", "6",
 	"8", "10","12","14","16","18","20","22","24" });
-	public static JTextPane jtf = new JTextPane();
+	public static JTextArea jtf = new JTextArea();
 	public JTextField tf = new JTextField(10);
 	public JTextField tf2 = new JTextField(10);
 	public JPanel panel1 = new JPanel();
@@ -60,8 +60,9 @@ public class JAVAp extends JFrame implements ActionListener {
          }
        );
        
-       JMenuItem i1= new JMenuItem("Open");
-       JMenuItem i2= new JMenuItem("Save");
+       JMenuItem i1= new JMenuItem("New");
+       JMenuItem i2= new JMenuItem("Open");
+       JMenuItem i3= new JMenuItem("Save");
        JMenuItem i4= new JMenuItem("Cut");
        JMenuItem i5= new JMenuItem("Copy");
        JMenuItem i6= new JMenuItem("Paste");
@@ -74,17 +75,42 @@ public class JAVAp extends JFrame implements ActionListener {
        JMenuItem i13= new JMenuItem("Octagon");
        JMenuItem i14= new JMenuItem("Case Upper");
        JMenuItem i15= new JMenuItem("Case Lower");
+       
+       bold.addActionListener(e ->changeStyle());
+       Italic.addActionListener(e ->changeStyle2());
+       UL.addActionListener(e ->changeStyle3());
+       
+       i1.addActionListener(this); 
        i2.addActionListener(this); 
-       i1.addActionListener(this);
-       i4.addActionListener(this);
-       i5.addActionListener(this);
-       i6.addActionListener(this); 
+       i3.addActionListener(this);
+       i4.addActionListener(new ActionListener()
+    		   {
+    	   public void actionPerformed(ActionEvent e1)
+    	   {
+    		   jtf.cut();
+    	   }
+    		   });
+       i5.addActionListener(new ActionListener()
+	   {
+   public void actionPerformed(ActionEvent e1)
+   {
+	   jtf.copy();
+   }
+	   });
+       i6.addActionListener(new ActionListener()
+	   {
+   public void actionPerformed(ActionEvent e1)
+   {
+	   jtf.paste();
+   }
+	   });
        bold.setFont(new Font("Arial Black",Font.BOLD,14));
        Italic.setFont(new Font("Times New Roman",Font.ITALIC,16));
        UL.setFont(new Font("Times New Roman",Font.BOLD,16));
        
        menu1.add(i1);
        menu1.add(i2);
+       menu1.add(i3);
        menu2.add(i4);
        menu2.add(i5);
        menu2.add(i6);
@@ -122,15 +148,7 @@ public class JAVAp extends JFrame implements ActionListener {
            @Override
             public void actionPerformed(ActionEvent e) {
                String s = e.getActionCommand(); 
-             if (s.equals("cut")) { 
-            jtf.cut(); 
-        } 
-        else if (s.equals("copy")) { 
-            jtf.copy(); 
-        } 
-        else if (s.equals("paste")) { 
-            jtf.paste(); 
-        } 
+
          if (s.equals("Save")) { 
             // Create an object of JFileChooser class 
             JFileChooser j = new JFileChooser("f:"); 
@@ -162,6 +180,9 @@ public class JAVAp extends JFrame implements ActionListener {
             } 
             
         }  
+         else if (s.equals("New")) { 
+             jtf.setText(""); 
+         } 
        if (s.equals("Open")) { 
             // Create an object of JFileChooser class 
             JFileChooser j = new JFileChooser("f:"); 
@@ -212,4 +233,50 @@ public class JAVAp extends JFrame implements ActionListener {
      w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
      w.setVisible(true);
   }
+  
+  public void changeStyle() {
+	    StyledDocument doc = (StyledDocument) jtf.getDocument();
+	    int selectionEnd = jtf.getSelectionEnd();
+	    int selectionStart = jtf.getSelectionStart();
+	    if (selectionStart == selectionEnd) {
+	      return;
+	    }
+	    Element element = doc.getCharacterElement(selectionStart);
+	    AttributeSet as = element.getAttributes();
+
+	    MutableAttributeSet asNew = new SimpleAttributeSet(as.copyAttributes());
+	    StyleConstants.setBold(asNew, !StyleConstants.isBold(as));
+	    doc.setCharacterAttributes(selectionStart, jtf.getSelectedText()
+	        .length(), asNew, true);
+	  }
+	public void changeStyle2() {
+	    StyledDocument doc = (StyledDocument) jtf.getDocument();
+	    int selectionEnd = jtf.getSelectionEnd();
+	    int selectionStart = jtf.getSelectionStart();
+	    if (selectionStart == selectionEnd) {
+	      return;
+	    }
+	    Element element = doc.getCharacterElement(selectionStart);
+	    AttributeSet as = element.getAttributes();
+
+	    MutableAttributeSet asNew = new SimpleAttributeSet(as.copyAttributes());
+	    StyleConstants.setItalic(asNew, !StyleConstants.isItalic(as));
+	    doc.setCharacterAttributes(selectionStart, jtf.getSelectedText()
+	        .length(), asNew, true);
+	  }
+	public void changeStyle3() {
+	    StyledDocument doc = (StyledDocument) jtf.getDocument();
+	    int selectionEnd = jtf.getSelectionEnd();
+	    int selectionStart = jtf.getSelectionStart();
+	    if (selectionStart == selectionEnd) {
+	      return;
+	    }
+	    Element element = doc.getCharacterElement(selectionStart);
+	    AttributeSet as = element.getAttributes();
+
+	    MutableAttributeSet asNew = new SimpleAttributeSet(as.copyAttributes());
+	    StyleConstants.setUnderline(asNew, !StyleConstants.isUnderline(as));
+	    doc.setCharacterAttributes(selectionStart, jtf.getSelectedText()
+	        .length(), asNew, true);
+	  }
 }
