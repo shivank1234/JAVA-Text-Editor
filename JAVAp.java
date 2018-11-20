@@ -66,8 +66,8 @@ public class JAVAp extends JFrame implements ActionListener {
        JMenuItem i4= new JMenuItem("Cut");
        JMenuItem i5= new JMenuItem("Copy");
        JMenuItem i6= new JMenuItem("Paste");
-       JMenuItem i7= new JMenuItem("Replace");
-       JMenuItem i8= new JMenuItem("Replace All");
+       JMenuItem i7= new JMenuItem("Find & Replace");
+       JMenuItem i8= new JMenuItem("Find & Replace All");
        JMenuItem i9= new JMenuItem("Square");
        JMenuItem i10= new JMenuItem("Rectangle");
        JMenuItem i11= new JMenuItem("Circle");
@@ -123,6 +123,47 @@ public class JAVAp extends JFrame implements ActionListener {
     	   }
        
     		   });
+       i7.addActionListener(new ActionListener()
+	   {
+   public void actionPerformed(ActionEvent e1)
+   {
+           JOptionPane.showMessageDialog( null, "CAUTION:Replace only replaces the first occurence of the word");
+	   String s2 =jtf.getText();
+           String s3=JOptionPane.showInputDialog("Enter the word to be found");
+           String s4=JOptionPane.showInputDialog("Enter the word to be used as a replacement");
+           String s5=s2.replaceFirst(s3,s4);
+           jtf.setText(s5);
+   }
+	   });
+      i8.addActionListener(new ActionListener()
+	   {
+   public void actionPerformed(ActionEvent e1)
+   {
+	   String s2 =jtf.getText();
+           String s3=JOptionPane.showInputDialog("Enter the word to be found");
+           String s4=JOptionPane.showInputDialog("Enter the word to be used as a replacement");
+           s2=s2.replaceAll(s3,s4);
+           jtf.setText(s2);
+   }
+	   });
+      i14.addActionListener(new ActionListener()
+	   {
+   public void actionPerformed(ActionEvent e1)
+   {
+	   String s2 =jtf.getSelectedText();
+           s2=s2.toUpperCase();
+           jtf.setText(s2);
+   }
+	   });
+      i15.addActionListener(new ActionListener()
+	   {
+   public void actionPerformed(ActionEvent e1)
+   {
+	   String s2 =jtf.getSelectedText();
+           s2=s2.toLowerCase();
+           jtf.setText(s2);
+   }
+	   });
        bold.setFont(new Font("Arial Black",Font.BOLD,14));
        Italic.setFont(new Font("Times New Roman",Font.ITALIC,16));
        UL.setFont(new Font("Times New Roman",Font.BOLD,16));
