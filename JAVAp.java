@@ -75,7 +75,7 @@ public class JAVAp extends JFrame implements ActionListener {
        JMenuItem i13= new JMenuItem("Octagon");
        JMenuItem i14= new JMenuItem("Case Upper");
        JMenuItem i15= new JMenuItem("Case Lower");
-       
+       JMenuItem i16= new JMenuItem("Count words & charachters");
        bold.addActionListener(e ->changeStyle());
        Italic.addActionListener(e ->changeStyle2());
        UL.addActionListener(e ->changeStyle3());
@@ -104,6 +104,25 @@ public class JAVAp extends JFrame implements ActionListener {
 	   jtf.paste();
    }
 	   });
+   i16.addActionListener(new ActionListener()
+    		   {
+    	   public void actionPerformed(ActionEvent e1)
+    	   {
+    		   String s1 =jtf.getSelectedText();
+    int length=0,words=1;
+     int i;
+    for(i=0;i<s1.length()-1;i++)
+       {
+           if (((s1.charAt(i) == ' ') && (s1.charAt(i + 1) != ' '))||((s1.charAt(i) == ',') && (s1.charAt(i + 1) != ','))||((s1.charAt(i) == '.') && (s1.charAt(i + 1) != '.')))
+			{
+				words++;
+			}   
+       }
+    tf.setText(String.valueOf(words));
+    tf2.setText(String.valueOf(s1.length()));
+    	   }
+       
+    		   });
        bold.setFont(new Font("Arial Black",Font.BOLD,14));
        Italic.setFont(new Font("Times New Roman",Font.ITALIC,16));
        UL.setFont(new Font("Times New Roman",Font.BOLD,16));
@@ -111,6 +130,7 @@ public class JAVAp extends JFrame implements ActionListener {
        menu1.add(i1);
        menu1.add(i2);
        menu1.add(i3);
+       menu1.add(i16);
        menu2.add(i4);
        menu2.add(i5);
        menu2.add(i6);
@@ -221,6 +241,7 @@ public class JAVAp extends JFrame implements ActionListener {
                 } 
             } 
      }
+    
 }
   public static void main(String[] args)
     {
@@ -279,4 +300,4 @@ public class JAVAp extends JFrame implements ActionListener {
 	    doc.setCharacterAttributes(selectionStart, jtf.getSelectedText()
 	        .length(), asNew, true);
 	  }
-}
+    }
