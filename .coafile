@@ -1,0 +1,26 @@
+[General]
+files = JAVAp.java
+bears = SpaceConsistencyBear
+use_spaces = true
+allow_trailing_whitespace= true
+
+[all.java]
+files = JAVAp.java
+language = Java
+ 
+[all.java.check]
+bears = CheckstyleBear
+
+[all.java.count]
+bears = LineCountBear
+min_lines_per_file = 100
+max_lines_per_file = 400
+
+[all.java.keyword]
+bears = KeywordBear
+keywords = JTextArea
+
+[all.java.length]
+bears = LineLengthBear
+max_line_length = 220
+
