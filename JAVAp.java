@@ -23,7 +23,7 @@ public class JAVAp extends JFrame implements ActionListener {
 	public int SIZE = 10;
 	public String FONT = "Dialog";
 	
-  public JAVAp(){
+  public JAVAp(){                                                 // Constructor function created
 	  
        setLayout(new FlowLayout());
        JMenu menu1 =new JMenu("File");
