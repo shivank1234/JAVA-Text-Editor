@@ -1,4 +1,6 @@
 language : java
-java
- - Java SE 10
- - Java SE 11
+sudo :false
+jdk:
+ - openjdk11
+ - openjdk8
+ 
